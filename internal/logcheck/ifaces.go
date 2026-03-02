@@ -5,10 +5,6 @@ import (
 	"go/types"
 )
 
-type LogCallDetector interface {
-	IsLogCall(n ast.Node, types *types.Info) bool
-}
-
 type LogMsgExtractor interface {
-	ExtractLogMessages(n ast.Node, types *types.Info) []string
+	ExtractLogMessages(n ast.CallExpr, types *types.Info) []string
 }

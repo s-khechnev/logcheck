@@ -19,7 +19,12 @@ func NewLowercaseAnalyzer(extractor LogMsgExtractor) *analysis.Analyzer {
 func run(extractor LogMsgExtractor, pass *analysis.Pass) (any, error) {
 	for _, f := range pass.Files {
 		ast.Inspect(f, func(n ast.Node) bool {
-			msgs := extractor.ExtractLogMessages(n, pass.TypesInfo)
+			call, ok := n.(*ast.CallExpr)
+			if !ok {
+				return true
+			}
+
+			msgs := extractor.ExtractLogMessages(*call, pass.TypesInfo)
 			if len(msgs) == 0 {
 				return true
 			}

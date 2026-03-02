@@ -7,5 +7,5 @@ import (
 )
 
 func main() {
-	singlechecker.Main(logcheck.NewLowercaseAnalyzer(slog.NewMessagesExtractor()))
+	singlechecker.Main(logcheck.NewLowercaseAnalyzer(slog.MessagesExtractor{}))
 }
