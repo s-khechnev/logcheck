@@ -1,16 +1,17 @@
-package nospecemoji
+package nospecnoemoji
 
 import (
 	"go/ast"
-	"golang.org/x/tools/go/analysis"
 	"logcheck/internal/logcheck"
 	"unicode"
+
+	"golang.org/x/tools/go/analysis"
 )
 
 func NewAnalyzer(extractor logcheck.LogMsgExtractor) *analysis.Analyzer {
 	return &analysis.Analyzer{
 		Name: "nospecemoji",
-		Doc:  "Check that the log message doesn't containt emoji or special chars",
+		Doc:  "Check that the log message doesn't contains emoji or special chars",
 		Run: func(pass *analysis.Pass) (any, error) {
 			return run(extractor, pass)
 		},

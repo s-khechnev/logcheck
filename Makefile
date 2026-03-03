@@ -1,0 +1,6 @@
+fmt:
+	goimports -w .
+	go fmt ./...
+
+test:
+	go test -v ./...

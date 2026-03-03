@@ -1,9 +1,10 @@
 package lowercase
 
 import (
-	"golang.org/x/tools/go/analysis/analysistest"
 	"logcheck/internal/analysis/slog"
 	"testing"
+
+	"golang.org/x/tools/go/analysis/analysistest"
 )
 
 func TestSlog(t *testing.T) {

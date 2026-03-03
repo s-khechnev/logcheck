@@ -1,9 +1,10 @@
 package main
 
 import (
-	"golang.org/x/tools/go/analysis/singlechecker"
 	"logcheck/internal/analysis/slog"
 	"logcheck/internal/logcheck/lowercase"
+
+	"golang.org/x/tools/go/analysis/singlechecker"
 )
 
 func main() {

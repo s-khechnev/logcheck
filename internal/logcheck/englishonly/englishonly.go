@@ -2,9 +2,10 @@ package englishonly
 
 import (
 	"go/ast"
-	"golang.org/x/tools/go/analysis"
 	"logcheck/internal/logcheck"
 	"unicode"
+
+	"golang.org/x/tools/go/analysis"
 )
 
 func NewAnalyzer(extractor logcheck.LogMsgExtractor) *analysis.Analyzer {
