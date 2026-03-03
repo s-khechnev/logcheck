@@ -11,7 +11,7 @@ import (
 func NewAnalyzer(extractor logcheck.LogMsgExtractor) *analysis.Analyzer {
 	return &analysis.Analyzer{
 		Name: "lowercase",
-		Doc:  "Check that the log message is lowercase",
+		Doc:  "Checks that the log message is lowercase",
 		Run: func(pass *analysis.Pass) (any, error) {
 			return run(extractor, pass)
 		},
@@ -26,17 +26,10 @@ func run(extractor logcheck.LogMsgExtractor, pass *analysis.Pass) (any, error) {
 				return true
 			}
 
-			//printer.Fprint(os.Stdout, pass.Fset, call)
-			//println()
-			//ast.Print(pass.Fset, call)
-			//println()
-
 			msgs := extractor.ExtractLogMessages(*call, pass.TypesInfo)
 			if len(msgs) == 0 {
 				return true
 			}
-
-			//fmt.Printf("%v\n", msgs)
 
 			firstMsg := []rune(msgs[0])
 			if len(msgs[0]) > 0 && unicode.IsUpper(firstMsg[0]) {

@@ -11,7 +11,7 @@ import (
 func NewAnalyzer(extractor logcheck.LogMsgExtractor) *analysis.Analyzer {
 	return &analysis.Analyzer{
 		Name: "englishonly",
-		Doc:  "Check that the log message is english only",
+		Doc:  "Checks that log message contains only English letters",
 		Run: func(pass *analysis.Pass) (any, error) {
 			return run(extractor, pass)
 		},
