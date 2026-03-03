@@ -13,6 +13,7 @@ var SlogLogFuncs = map[string]struct{}{
 	"Warn": {}, "WarnContext": {},
 	"Error": {}, "ErrorContext": {},
 	"Log": {}, "LogContext": {},
+	"LogAttrs": {},
 }
 
 type MessagesExtractor struct{}
@@ -28,13 +29,12 @@ func (e MessagesExtractor) ExtractLogMessages(call ast.CallExpr, typeInfo *types
 		startIdx = 1
 	}
 
-	msg, err := funcall.ExtractStringArg(call.Args[startIdx], typeInfo)
-	if err != nil {
-		return nil
-	}
-
 	var msgs []string
-	msgs = append(msgs, msg)
+
+	msg, err := funcall.ExtractStringArg(call.Args[startIdx], typeInfo)
+	if err == nil {
+		msgs = append(msgs, msg)
+	}
 
 	i := startIdx + 1
 	for {
@@ -59,7 +59,8 @@ func (e MessagesExtractor) ExtractLogMessages(call ast.CallExpr, typeInfo *types
 			}
 			_, err := funcall.GetLogFuncName(*call, typeInfo, slogAttrFunc, "slog", "*log/slog.Logger")
 			if err != nil {
-				return nil
+				i += 1
+				continue
 			}
 
 			keyMsg, err = funcall.ExtractStringArg(call.Args[0], typeInfo)
@@ -71,7 +72,7 @@ func (e MessagesExtractor) ExtractLogMessages(call ast.CallExpr, typeInfo *types
 			continue
 		}
 
-		panic("unreachable")
+		i += 1
 	}
 
 	return msgs

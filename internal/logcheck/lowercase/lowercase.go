@@ -1,7 +1,6 @@
 package lowercase
 
 import (
-	"fmt"
 	"go/ast"
 	"golang.org/x/tools/go/analysis"
 	"logcheck/internal/logcheck"
@@ -26,14 +25,20 @@ func run(extractor logcheck.LogMsgExtractor, pass *analysis.Pass) (any, error) {
 				return true
 			}
 
+			//printer.Fprint(os.Stdout, pass.Fset, call)
+			//println()
+			//ast.Print(pass.Fset, call)
+			//println()
+
 			msgs := extractor.ExtractLogMessages(*call, pass.TypesInfo)
 			if len(msgs) == 0 {
 				return true
 			}
 
+			//fmt.Printf("%v\n", msgs)
+
 			firstMsg := []rune(msgs[0])
 			if len(msgs[0]) > 0 && unicode.IsUpper(firstMsg[0]) {
-				fmt.Printf("%v\n", msgs)
 				pass.Reportf(n.Pos(), "Message starts with capital letter: %s", msgs[0])
 			}
 

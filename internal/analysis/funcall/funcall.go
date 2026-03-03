@@ -53,10 +53,10 @@ func GetLogFuncName(
 
 	if pkgId, ok := sel.X.(*ast.Ident); ok {
 		obj := typeInfo.ObjectOf(pkgId)
-		if obj.(*types.PkgName).Imported().Name() == pkgName {
+
+		if pkg, ok := obj.(*types.PkgName); ok && pkg.Imported().Name() == pkgName {
 			return logFuncName, nil
 		}
-		return
 	}
 
 	if typeInfo.TypeOf(sel.X).Underlying().String() == typeName {
@@ -66,6 +66,7 @@ func GetLogFuncName(
 }
 
 func ExtractStringArg(expr ast.Expr, typeInfo *types.Info) (string, error) {
+	//ast.Print(nil, expr)
 	switch expr := expr.(type) {
 	case *ast.BasicLit:
 		if expr.Kind == token.STRING {
