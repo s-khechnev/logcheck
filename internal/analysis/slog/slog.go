@@ -4,6 +4,7 @@ import (
 	"go/ast"
 	"go/types"
 	"logcheck/internal/analysis/funcall"
+	"strings"
 )
 
 var SlogLogFuncs = map[string]struct{}{
@@ -16,11 +17,62 @@ var SlogLogFuncs = map[string]struct{}{
 
 type MessagesExtractor struct{}
 
-func (e MessagesExtractor) ExtractLogMessages(n ast.CallExpr, typeInfo *types.Info) []string {
-	_, err := funcall.GetLogFuncName(n, typeInfo, SlogLogFuncs, "slog", "*log/slog.Logger")
+func (e MessagesExtractor) ExtractLogMessages(call ast.CallExpr, typeInfo *types.Info) []string {
+	funcName, err := funcall.GetLogFuncName(call, typeInfo, SlogLogFuncs, "slog", "*log/slog.Logger")
+	if err != nil || len(call.Args) == 0 {
+		return nil
+	}
+
+	startIdx := 0
+	if strings.HasSuffix(funcName, "Context") {
+		startIdx = 1
+	}
+
+	msg, err := funcall.ExtractStringArg(call.Args[startIdx], typeInfo)
 	if err != nil {
 		return nil
 	}
 
-	return funcall.GetStringArgs(n, typeInfo)
+	var msgs []string
+	msgs = append(msgs, msg)
+
+	i := startIdx + 1
+	for {
+		if i >= len(call.Args) {
+			break
+		}
+
+		keyMsg, err := funcall.ExtractStringArg(call.Args[i], typeInfo)
+		if err == nil {
+			msgs = append(msgs, keyMsg)
+			i += 2
+			continue
+		}
+
+		if call, ok := call.Args[i].(*ast.CallExpr); ok {
+			slogAttrFunc := map[string]struct{}{
+				"String": {}, "Int": {},
+				"Int64": {}, "Uint64": {},
+				"Float64": {}, "Bool": {},
+				"Time": {}, "Duration": {},
+				"Any": {},
+			}
+			_, err := funcall.GetLogFuncName(*call, typeInfo, slogAttrFunc, "slog", "*log/slog.Logger")
+			if err != nil {
+				return nil
+			}
+
+			keyMsg, err = funcall.ExtractStringArg(call.Args[0], typeInfo)
+			if err == nil {
+				msgs = append(msgs, keyMsg)
+			}
+
+			i += 1
+			continue
+		}
+
+		panic("unreachable")
+	}
+
+	return msgs
 }

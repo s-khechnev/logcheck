@@ -3,9 +3,9 @@ package main
 import (
 	"golang.org/x/tools/go/analysis/singlechecker"
 	"logcheck/internal/analysis/slog"
-	"logcheck/internal/logcheck"
+	"logcheck/internal/logcheck/lowercase"
 )
 
 func main() {
-	singlechecker.Main(logcheck.NewLowercaseAnalyzer(slog.MessagesExtractor{}))
+	singlechecker.Main(lowercase.NewAnalyzer(slog.MessagesExtractor{}))
 }
