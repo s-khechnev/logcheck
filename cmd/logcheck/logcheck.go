@@ -1,12 +1,13 @@
 package main
 
 import (
-	"golang.org/x/tools/go/analysis/singlechecker"
 	"logcheck/internal/analysis/slog"
-	"logcheck/internal/logcheck/englishonly"
+	"logcheck/internal/logcheck/nospecnoemoji"
+
+	"golang.org/x/tools/go/analysis/singlechecker"
 )
 
 func main() {
 	//singlechecker.Main(lowercase.NewAnalyzer(slog.MessagesExtractor{}))
-	singlechecker.Main(englishonly.NewAnalyzer(slog.MessagesExtractor{}))
+	singlechecker.Main(nospecnoemoji.NewAnalyzer(slog.MessagesExtractor{}))
 }

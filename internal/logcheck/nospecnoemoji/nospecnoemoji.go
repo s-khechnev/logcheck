@@ -33,7 +33,7 @@ func run(extractor logcheck.LogMsgExtractor, pass *analysis.Pass) (any, error) {
 
 			for _, msg := range msgs {
 				for _, r := range msg {
-					if !unicode.IsLetter(r) && !unicode.IsDigit(r) && !unicode.IsSpace(r) {
+					if !unicode.IsLetter(r) && !unicode.IsDigit(r) && !unicode.IsSpace(r) && r != '_' {
 						pass.Reportf(n.Pos(), "Message contains special char or emoji: %s", msg)
 						break
 					}
