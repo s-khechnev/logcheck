@@ -17,6 +17,7 @@ var sensitivePatterns = []*regexp.Regexp{
 	regexp.MustCompile(`(?i)auth|authorization|basic_auth`),
 	regexp.MustCompile(`(?i)session|cookie|session_id`),
 	regexp.MustCompile(`(?i)conn(ection)?[_-]?string|dsn`),
+	regexp.MustCompile(`(?i)email|e-?mail|mail`),
 }
 
 func NewAnalyzer(extractor logcheck.LogVarIdsExtractor) *analysis.Analyzer {

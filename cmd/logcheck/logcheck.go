@@ -1,13 +1,14 @@
 package main
 
 import (
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/analysis/multichecker"
 	"logcheck/internal/analysis/slog"
 	"logcheck/internal/logcheck/englishonly"
 	"logcheck/internal/logcheck/lowercase"
 	nosensetivedata "logcheck/internal/logcheck/nosensitivedata"
 	"logcheck/internal/logcheck/nospecnoemoji"
+
+	"golang.org/x/tools/go/analysis"
+	"golang.org/x/tools/go/analysis/multichecker"
 )
 
 var (
