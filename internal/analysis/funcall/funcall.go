@@ -26,7 +26,7 @@ func ExtractString(expr ast.Expr, typeInfo *types.Info) (string, error) {
 	return "", fmt.Errorf("not string arg")
 }
 
-func GetStringArgs(call ast.CallExpr, typeInfo *types.Info) []string {
+func ExtractStringArgs(call ast.CallExpr, typeInfo *types.Info) []string {
 	var strs []string
 	for _, arg := range call.Args {
 		strArg, err := ExtractString(arg, typeInfo)
@@ -84,4 +84,32 @@ func IsTargetFuncCall(
 	}
 
 	return typeInfo.TypeOf(sel.X).Underlying().String() == typeName
+}
+
+func ExtractAllIds(expr ast.Expr, typeInfo *types.Info) []string {
+	var varIds []string
+
+	ast.Inspect(expr, func(n ast.Node) bool {
+		switch n := n.(type) {
+		case *ast.Ident:
+			if obj := typeInfo.ObjectOf(n); obj != nil {
+				switch obj.(type) {
+				case *types.Var, *types.Const:
+					varIds = append(varIds, n.Name)
+				}
+			}
+		case *ast.SelectorExpr:
+			if sel, ok := typeInfo.Selections[n]; ok && sel != nil {
+				if obj := sel.Obj(); obj != nil {
+					if _, ok := obj.(*types.Var); ok {
+						varIds = append(varIds, n.Sel.Name)
+					}
+				}
+			}
+		}
+
+		return true
+	})
+
+	return varIds
 }

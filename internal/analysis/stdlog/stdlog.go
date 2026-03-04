@@ -19,5 +19,5 @@ func (e MessagesExtractor) ExtractLogMessages(call ast.CallExpr, typeInfo *types
 		return nil
 	}
 
-	return funcall.GetStringArgs(call, typeInfo)
+	return funcall.ExtractStringArgs(call, typeInfo)
 }
