@@ -2,8 +2,9 @@ package lowercase
 
 import (
 	"go/ast"
-	"logcheck/internal/logcheck"
 	"unicode"
+
+	"github.com/s-khechnev/logcheck/internal/logcheck"
 
 	"golang.org/x/tools/go/analysis"
 )

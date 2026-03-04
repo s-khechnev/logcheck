@@ -1,0 +1,5 @@
+version: v2.10.0
+plugins:
+  - module: 'github.com/s-khechnev/logcheck'
+    path: .
+    import: 'github.com/s-khechnev/logcheck/pkg/golinters/logcheck'

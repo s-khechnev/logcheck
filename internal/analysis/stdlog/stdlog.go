@@ -3,7 +3,8 @@ package stdlog
 import (
 	"go/ast"
 	"go/types"
-	"logcheck/internal/analysis/funcall"
+
+	"github.com/s-khechnev/logcheck/internal/analysis/funcall"
 )
 
 var StdLogFuncs = []string{

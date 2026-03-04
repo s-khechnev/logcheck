@@ -1,10 +1,11 @@
 package lowercase_test
 
 import (
-	"logcheck/internal/analysis/slog"
-	"logcheck/internal/analysis/zap"
 	"path/filepath"
 	"testing"
+
+	"github.com/s-khechnev/logcheck/internal/analysis/slog"
+	"github.com/s-khechnev/logcheck/internal/analysis/zap"
 
 	"golang.org/x/tools/go/analysis/analysistest"
 )

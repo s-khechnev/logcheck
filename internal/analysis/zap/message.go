@@ -4,8 +4,9 @@ import (
 	"errors"
 	"go/ast"
 	"go/types"
-	"logcheck/internal/analysis/funcall"
 	"strings"
+
+	"github.com/s-khechnev/logcheck/internal/analysis/funcall"
 )
 
 var (

@@ -2,8 +2,9 @@ package nosensitivedata
 
 import (
 	"go/ast"
-	"logcheck/internal/logcheck"
 	"regexp"
+
+	"github.com/s-khechnev/logcheck/internal/logcheck"
 
 	"golang.org/x/tools/go/analysis"
 )
