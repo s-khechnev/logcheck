@@ -3,6 +3,8 @@ package zap
 import (
 	"logcheck/internal/logcheck/englishonly"
 	"logcheck/internal/logcheck/lowercase"
+	"logcheck/internal/logcheck/nosensitivedata"
+	"logcheck/internal/logcheck/nospecnoemoji"
 
 	"golang.org/x/tools/go/analysis"
 )
@@ -12,7 +14,8 @@ const (
 )
 
 var (
-	zapMsgExtractor = MessagesExtractor{}
+	zapMsgExtractor    = MessagesExtractor{}
+	zapVarIdsExtractor = VarIdsExtractor{}
 )
 
 func NewLowercaseAnalyzer() *analysis.Analyzer {
@@ -21,4 +24,12 @@ func NewLowercaseAnalyzer() *analysis.Analyzer {
 
 func NewEnglishOnlyAnalyzer() *analysis.Analyzer {
 	return englishonly.NewAnalyzer(zapName, zapMsgExtractor)
+}
+
+func NewNoSpecNoEmogiAnalyzer() *analysis.Analyzer {
+	return nospecnoemoji.NewAnalyzer(zapName, zapMsgExtractor)
+}
+
+func NewNoSensitiveDataAnalyzer() *analysis.Analyzer {
+	return nosensitivedata.NewAnalyzer(zapName, zapVarIdsExtractor)
 }
