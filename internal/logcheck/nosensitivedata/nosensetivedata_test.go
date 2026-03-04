@@ -1,4 +1,4 @@
-package nosensetivedata
+package nosensetivedata_test
 
 import (
 	"logcheck/internal/analysis/slog"
@@ -8,5 +8,5 @@ import (
 )
 
 func TestSlog(t *testing.T) {
-	analysistest.Run(t, analysistest.TestData(), NewAnalyzer(slog.MessagesExtractor{}))
+	analysistest.Run(t, analysistest.TestData(), slog.NewNoSensitiveDataAnalyzer())
 }

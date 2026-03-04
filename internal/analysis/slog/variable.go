@@ -8,7 +8,7 @@ import (
 
 type VarIdsExtractor struct{}
 
-func (e MessagesExtractor) ExtractLogVarIds(call ast.CallExpr, typeInfo *types.Info) []string {
+func (e VarIdsExtractor) ExtractLogVarIds(call ast.CallExpr, typeInfo *types.Info) []string {
 	if !funcall.IsTargetFuncCall(call, typeInfo, slogLogFuncs, slogPkgName, slogLoggerTypeName) {
 		return nil
 	}

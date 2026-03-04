@@ -20,9 +20,9 @@ var sensitivePatterns = []*regexp.Regexp{
 	regexp.MustCompile(`(?i)email|e-?mail|mail`),
 }
 
-func NewAnalyzer(extractor logcheck.LogVarIdsExtractor) *analysis.Analyzer {
+func NewAnalyzer(loggerName string, extractor logcheck.LogVarIdsExtractor) *analysis.Analyzer {
 	return &analysis.Analyzer{
-		Name: "nosensetivedata",
+		Name: loggerName + "_nosensetivedata",
 		Doc:  "Check that the log message doesn't contains sensitive data",
 		Run: func(pass *analysis.Pass) (any, error) {
 			return run(extractor, pass)

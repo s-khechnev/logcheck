@@ -8,9 +8,9 @@ import (
 	"golang.org/x/tools/go/analysis"
 )
 
-func NewAnalyzer(extractor logcheck.LogMsgExtractor) *analysis.Analyzer {
+func NewAnalyzer(loggerName string, extractor logcheck.LogMsgExtractor) *analysis.Analyzer {
 	return &analysis.Analyzer{
-		Name: "englishonly",
+		Name: loggerName + "_englishonly",
 		Doc:  "Checks that log message contains only English letters",
 		Run: func(pass *analysis.Pass) (any, error) {
 			return run(extractor, pass)

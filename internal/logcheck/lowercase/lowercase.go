@@ -8,9 +8,9 @@ import (
 	"golang.org/x/tools/go/analysis"
 )
 
-func NewAnalyzer(extractor logcheck.LogMsgExtractor) *analysis.Analyzer {
+func NewAnalyzer(loggerName string, extractor logcheck.LogMsgExtractor) *analysis.Analyzer {
 	return &analysis.Analyzer{
-		Name: "lowercase",
+		Name: loggerName + "_lowercase",
 		Doc:  "Checks that the log message is lowercase",
 		Run: func(pass *analysis.Pass) (any, error) {
 			return run(extractor, pass)

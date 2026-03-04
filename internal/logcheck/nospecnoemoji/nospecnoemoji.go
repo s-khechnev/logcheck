@@ -8,9 +8,9 @@ import (
 	"golang.org/x/tools/go/analysis"
 )
 
-func NewAnalyzer(extractor logcheck.LogMsgExtractor) *analysis.Analyzer {
+func NewAnalyzer(loggerName string, extractor logcheck.LogMsgExtractor) *analysis.Analyzer {
 	return &analysis.Analyzer{
-		Name: "nospecemoji",
+		Name: loggerName + "_nospecnoemoji",
 		Doc:  "Check that the log message doesn't contains emoji or special chars",
 		Run: func(pass *analysis.Pass) (any, error) {
 			return run(extractor, pass)

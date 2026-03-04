@@ -1,6 +1,7 @@
 package funcall
 
 import (
+	"errors"
 	"fmt"
 	"go/ast"
 	"go/token"
@@ -124,4 +125,19 @@ func ExtractAllIds(expr ast.Expr, typeInfo *types.Info) []string {
 	})
 
 	return varIds
+}
+
+func ExtractFuncName(expr ast.Expr) (string, error) {
+	switch expr := expr.(type) {
+	case *ast.CallExpr:
+		return ExtractFuncName(expr.Fun)
+	case *ast.Ident:
+		return expr.Name, nil
+	case *ast.SelectorExpr:
+		return expr.Sel.Name, nil
+	case *ast.ParenExpr:
+		return ExtractFuncName(expr.X)
+	}
+
+	return "", errors.New("not funcall")
 }
