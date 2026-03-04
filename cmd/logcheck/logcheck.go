@@ -18,7 +18,7 @@ var slogAnalyzers = []*analysis.Analyzer{
 var zapAnalyzers = []*analysis.Analyzer{
 	zap.NewLowercaseAnalyzer(),
 	zap.NewEnglishOnlyAnalyzer(),
-	zap.NewNoSpecNoEmogiAnalyzer(),
+	zap.NewNoSpecNoEmojiAnalyzer(),
 	zap.NewNoSensitiveDataAnalyzer(),
 }
 

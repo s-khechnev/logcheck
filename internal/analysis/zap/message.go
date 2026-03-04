@@ -21,10 +21,10 @@ var (
 	}
 
 	zapSugarLogFuncs = []string{
-		"Debug", "Info", "Warn", "Error", "DPanic", "Panic", "Fatal",
-		"Debugf", "Infof", "Warnf", "Errorf", "DPanicf", "Panicf", "Fatalf",
-		"Debugw", "Infow", "Warnw", "Errorw", "DPanicw", "Panicw", "Fatalw",
-		"Debugln", "Infoln", "Warnln", "Errorln", "DPanicln", "Panicln", "Fatalln",
+		"Debug", "Info", "Warn", "Error", "DPanic", "Panic", "Fatal", "Log",
+		"Debugf", "Infof", "Warnf", "Errorf", "DPanicf", "Panicf", "Fatalf", "Logf",
+		"Debugw", "Infow", "Warnw", "Errorw", "DPanicw", "Panicw", "Fatalw", "Logw",
+		"Debugln", "Infoln", "Warnln", "Errorln", "DPanicln", "Panicln", "Fatalln", "Logln",
 	}
 
 	zapFieldFuncs = []string{
@@ -35,7 +35,7 @@ var (
 		"Int", "Ints", "Int8", "Int8s", "Int16",
 		"Int16s", "Int32", "Int32s", "Int64", "Int64s",
 		"Namespace", "Object", "Reflect", "Stack",
-		"StackSkip", "String", "Strings", "Stringer", "Time",
+		"StackSkip", "String", "Stringp", "Strings", "Stringer", "Time",
 		"Times", "Timep", "Uint", "Uints", "Uint8",
 		"Uint8s", "Uint16", "Uint16s", "Uint32", "Uint32s",
 		"Uint64", "Uint64s", "Uintptr", "Uintptrs",

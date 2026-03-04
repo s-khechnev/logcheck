@@ -26,7 +26,7 @@ func NewEnglishOnlyAnalyzer() *analysis.Analyzer {
 	return englishonly.NewAnalyzer(zapName, zapMsgExtractor)
 }
 
-func NewNoSpecNoEmogiAnalyzer() *analysis.Analyzer {
+func NewNoSpecNoEmojiAnalyzer() *analysis.Analyzer {
 	return nospecnoemoji.NewAnalyzer(zapName, zapMsgExtractor)
 }
 

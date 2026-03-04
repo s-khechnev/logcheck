@@ -2,6 +2,7 @@ package lowercase_test
 
 import (
 	"logcheck/internal/analysis/slog"
+	"logcheck/internal/analysis/zap"
 	"path/filepath"
 	"testing"
 
@@ -10,4 +11,8 @@ import (
 
 func TestSlog(t *testing.T) {
 	analysistest.Run(t, filepath.Join(analysistest.TestData(), "slog"), slog.NewLowercaseAnalyzer())
+}
+
+func TestZap(t *testing.T) {
+	analysistest.Run(t, filepath.Join(analysistest.TestData(), "zap"), zap.NewLowercaseAnalyzer())
 }
