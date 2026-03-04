@@ -2,11 +2,12 @@ package lowercase_test
 
 import (
 	"logcheck/internal/analysis/slog"
+	"path/filepath"
 	"testing"
 
 	"golang.org/x/tools/go/analysis/analysistest"
 )
 
 func TestSlog(t *testing.T) {
-	analysistest.Run(t, analysistest.TestData(), slog.NewLowercaseAnalyzer())
+	analysistest.Run(t, filepath.Join(analysistest.TestData(), "slog"), slog.NewLowercaseAnalyzer())
 }
