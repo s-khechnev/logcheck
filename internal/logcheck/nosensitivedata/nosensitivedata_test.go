@@ -1,4 +1,4 @@
-package nosensetivedata_test
+package nosensitivedata_test
 
 import (
 	"logcheck/internal/analysis/slog"

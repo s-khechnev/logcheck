@@ -3,7 +3,7 @@ package slog
 import (
 	"logcheck/internal/logcheck/englishonly"
 	"logcheck/internal/logcheck/lowercase"
-	nosensetivedata "logcheck/internal/logcheck/nosensitivedata"
+	"logcheck/internal/logcheck/nosensitivedata"
 	"logcheck/internal/logcheck/nospecnoemoji"
 
 	"golang.org/x/tools/go/analysis"
@@ -31,5 +31,5 @@ func NewNoSpecNoEmojiAnalyzer() *analysis.Analyzer {
 }
 
 func NewNoSensitiveDataAnalyzer() *analysis.Analyzer {
-	return nosensetivedata.NewAnalyzer(slogName, slogVarIdsExtractor)
+	return nosensitivedata.NewAnalyzer(slogName, slogVarIdsExtractor)
 }

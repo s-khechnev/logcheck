@@ -1,4 +1,4 @@
-package nosensetivedata
+package nosensitivedata
 
 import (
 	"go/ast"
