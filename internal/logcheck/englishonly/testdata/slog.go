@@ -82,4 +82,9 @@ func Test() {
 		slog.String("qwe1", "val"),
 		slog.String("qwe2", "val"),
 	))
+
+	slog.Info("Hello" + "привет")                             // want "Message contains non-English letter: Helloпривет"
+	slog.Info("Hello", "Hello"+"привет", "val1")              // want "Message contains non-English letter: Helloпривет"
+	slog.Info("Hello" + "hello1" + "привет" + "hello")        // want "Message contains non-English letter: Hellohello1приветhello"
+	slog.Info("Hello", slog.String("Hello"+"привет", "val1")) // want "Message contains non-English letter: Helloпривет"
 }

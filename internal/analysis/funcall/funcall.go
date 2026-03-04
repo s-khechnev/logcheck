@@ -10,20 +10,32 @@ import (
 )
 
 func ExtractString(expr ast.Expr, typeInfo *types.Info) (string, error) {
-	switch expr := expr.(type) {
-	case *ast.BasicLit:
-		if expr.Kind == token.STRING {
-			return strings.Trim(expr.Value, "\""), nil
-		}
-	case *ast.Ident:
-		if constant, ok := typeInfo.ObjectOf(expr).(*types.Const); ok {
-			if val := constant.Val(); val != nil {
-				return strings.Trim(val.String(), "\""), nil
+	var stringBuilder strings.Builder
+
+	ast.Inspect(expr, func(n ast.Node) bool {
+		switch n := n.(type) {
+		case *ast.BinaryExpr:
+			return n.Op == token.ADD
+		case *ast.BasicLit:
+			if n.Kind == token.STRING {
+				stringBuilder.WriteString(strings.Trim(n.Value, "\""))
+			}
+		case *ast.Ident:
+			if constant, ok := typeInfo.ObjectOf(n).(*types.Const); ok {
+				if val := constant.Val(); val != nil {
+					stringBuilder.WriteString(strings.Trim(val.String(), "\""))
+				}
 			}
 		}
+
+		return false
+	})
+
+	if stringBuilder.Len() == 0 {
+		return "", fmt.Errorf("not string arg")
 	}
 
-	return "", fmt.Errorf("not string arg")
+	return stringBuilder.String(), nil
 }
 
 func ExtractStringArgs(call ast.CallExpr, typeInfo *types.Info) []string {
