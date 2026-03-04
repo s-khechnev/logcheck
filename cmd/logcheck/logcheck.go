@@ -1,13 +1,31 @@
 package main
 
 import (
+	"golang.org/x/tools/go/analysis"
+	"golang.org/x/tools/go/analysis/multichecker"
 	"logcheck/internal/analysis/slog"
+	"logcheck/internal/logcheck/englishonly"
+	"logcheck/internal/logcheck/lowercase"
+	nosensetivedata "logcheck/internal/logcheck/nosensitivedata"
 	"logcheck/internal/logcheck/nospecnoemoji"
+)
 
-	"golang.org/x/tools/go/analysis/singlechecker"
+var (
+	slogMsgExtractor    = slog.MessagesExtractor{}
+	slogVarIdsExtractor = slog.MessagesExtractor{}
+
+	slogAnalyzers = []*analysis.Analyzer{
+		lowercase.NewAnalyzer(slogMsgExtractor),
+		englishonly.NewAnalyzer(slogMsgExtractor),
+		nospecnoemoji.NewAnalyzer(slogMsgExtractor),
+		nosensetivedata.NewAnalyzer(slogVarIdsExtractor),
+	}
 )
 
 func main() {
-	//singlechecker.Main(lowercase.NewAnalyzer(slog.MessagesExtractor{}))
-	singlechecker.Main(nospecnoemoji.NewAnalyzer(slog.MessagesExtractor{}))
+	var analyzers []*analysis.Analyzer
+
+	analyzers = append(analyzers, slogAnalyzers...)
+
+	multichecker.Main(analyzers...)
 }

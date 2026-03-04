@@ -1,7 +1,6 @@
 package nosensetivedata
 
 import (
-	"fmt"
 	"go/ast"
 	"logcheck/internal/logcheck"
 	"regexp"
@@ -39,7 +38,6 @@ func run(extractor logcheck.LogVarIdsExtractor, pass *analysis.Pass) (any, error
 			}
 
 			varIds := extractor.ExtractLogVarIds(*call, pass.TypesInfo)
-			fmt.Printf("varIds: %v\n", varIds)
 			if len(varIds) == 0 {
 				return true
 			}
