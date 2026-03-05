@@ -30,6 +30,6 @@ func NewNoSpecNoEmojiAnalyzer() *analysis.Analyzer {
 	return nospecnoemoji.NewAnalyzer(slogName, slogMsgExtractor)
 }
 
-func NewNoSensitiveDataAnalyzer() *analysis.Analyzer {
-	return nosensitivedata.NewAnalyzer(slogName, slogVarIdsExtractor)
+func NewNoSensitiveDataAnalyzer(patterns ...string) *analysis.Analyzer {
+	return nosensitivedata.NewAnalyzer(slogName, slogVarIdsExtractor, patterns...)
 }

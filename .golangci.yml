@@ -11,3 +11,6 @@ linters:
         description: Checks log messages
         settings:
           loggers: ["slog", "zap"]
+          patterns:
+            - "(?i)pass(word)?|pwd"
+            - "(?i)secret|private_key"

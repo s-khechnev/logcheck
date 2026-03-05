@@ -11,20 +11,6 @@ import (
 	"golang.org/x/tools/go/analysis"
 )
 
-var slogAnalyzers = []*analysis.Analyzer{
-	slog.NewLowercaseAnalyzer(),
-	slog.NewEnglishOnlyAnalyzer(),
-	slog.NewNoSpecNoEmojiAnalyzer(),
-	slog.NewNoSensitiveDataAnalyzer(),
-}
-
-var zapAnalyzers = []*analysis.Analyzer{
-	zap.NewLowercaseAnalyzer(),
-	zap.NewEnglishOnlyAnalyzer(),
-	zap.NewNoSpecNoEmojiAnalyzer(),
-	zap.NewNoSensitiveDataAnalyzer(),
-}
-
 const PluginName = "logcheck"
 
 func init() {
@@ -32,6 +18,20 @@ func init() {
 }
 
 func GetAnalyzers(cfg *config.Config) []*analysis.Analyzer {
+	var slogAnalyzers = []*analysis.Analyzer{
+		slog.NewLowercaseAnalyzer(),
+		slog.NewEnglishOnlyAnalyzer(),
+		slog.NewNoSpecNoEmojiAnalyzer(),
+		slog.NewNoSensitiveDataAnalyzer(cfg.Patterns...),
+	}
+
+	var zapAnalyzers = []*analysis.Analyzer{
+		zap.NewLowercaseAnalyzer(),
+		zap.NewEnglishOnlyAnalyzer(),
+		zap.NewNoSpecNoEmojiAnalyzer(),
+		zap.NewNoSensitiveDataAnalyzer(cfg.Patterns...),
+	}
+
 	var analyzers []*analysis.Analyzer
 
 	if len(cfg.Loggers) == 0 || (len(cfg.Loggers) == 1 && cfg.Loggers[0] == "") {

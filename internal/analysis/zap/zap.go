@@ -30,6 +30,6 @@ func NewNoSpecNoEmojiAnalyzer() *analysis.Analyzer {
 	return nospecnoemoji.NewAnalyzer(zapName, zapMsgExtractor)
 }
 
-func NewNoSensitiveDataAnalyzer() *analysis.Analyzer {
-	return nosensitivedata.NewAnalyzer(zapName, zapVarIdsExtractor)
+func NewNoSensitiveDataAnalyzer(patterns ...string) *analysis.Analyzer {
+	return nosensitivedata.NewAnalyzer(zapName, zapVarIdsExtractor, patterns...)
 }

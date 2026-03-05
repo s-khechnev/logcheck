@@ -15,7 +15,8 @@ var AvailableLoggers = []string{
 }
 
 type Config struct {
-	Loggers []string `mapstructure:"loggers"`
+	Loggers  []string `mapstructure:"loggers"`
+	Patterns []string `mapstructure:"patterns"`
 }
 
 func GetConfig() *Config {
@@ -25,6 +26,11 @@ func GetConfig() *Config {
 		"loggers",
 		"",
 		fmt.Sprintf("Comma separated list of loggers. Supported: %s", strings.Join(AvailableLoggers, ", ")))
+
+	sensPatternsStr := fs.String(
+		"patterns",
+		"",
+		fmt.Sprintf("Comma separated list of patterns for sensitive data"))
 
 	err := fs.Parse(os.Args[1:])
 	if err != nil {
@@ -55,7 +61,13 @@ func GetConfig() *Config {
 		loggers = strings.Split(*loggersStr, ",")
 	}
 
+	var sensPatterns []string
+	if len(*sensPatternsStr) > 0 && *sensPatternsStr != "" {
+		sensPatterns = strings.Split(*sensPatternsStr, ",")
+	}
+
 	return &Config{
-		Loggers: loggers,
+		Loggers:  loggers,
+		Patterns: sensPatterns,
 	}
 }

@@ -22,6 +22,15 @@ This creates an executable `./custom-gcl` that can be used instead of the standa
 #### Available settings:
 1. -loggers `comma sep string`. Supported: `zap`, `slog`. Example setting golangci-lint
    [here](https://github.com/s-khechnev/logcheck/blob/master/.golangci.yml#L13)
+```bash
+logcheck -loggers zap,slog ./...
+```
+
+2. -patterns `comma sep string`. Regex patterns for matching sensitive data. Example setting golangci-lint
+      [here](https://github.com/s-khechnev/logcheck/blob/master/.golangci.yml#L14)
+```bash
+logcheck -patterns "(?i)pass(word)?|pwd,(?i)secret|private_key" ./...
+```
 
 ### Run tests
 ```bash

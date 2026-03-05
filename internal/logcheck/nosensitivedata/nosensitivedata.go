@@ -9,29 +9,38 @@ import (
 	"golang.org/x/tools/go/analysis"
 )
 
-var sensitivePatterns = []*regexp.Regexp{
-	regexp.MustCompile(`(?i)pass(word)?|pwd`),
-	regexp.MustCompile(`(?i)token|jwt|refresh|access_token`),
-	regexp.MustCompile(`(?i)api[_-]?key|apikey|api_secret`),
-	regexp.MustCompile(`(?i)secret|private_key`),
-	regexp.MustCompile(`(?i)card|ccv|cvv|credit_card`),
-	regexp.MustCompile(`(?i)auth|authorization|basic_auth`),
-	regexp.MustCompile(`(?i)session|cookie|session_id`),
-	regexp.MustCompile(`(?i)conn(ection)?[_-]?string|dsn`),
-	regexp.MustCompile(`(?i)email|e-?mail|mail`),
+var defaultSensitivePatterns = []string{
+	`(?i)pass(word)?|pwd`,
+	`(?i)token|jwt|refresh|access_token`,
+	`(?i)api[_-]?key|apikey|api_secret`,
+	`(?i)secret|private_key`,
+	`(?i)card|ccv|cvv|credit_card`,
+	`(?i)auth|authorization|basic_auth`,
+	`(?i)session|cookie|session_id`,
+	`(?i)conn(ection)?[_-]?string|dsn`,
+	`(?i)email|e-?mail|mail`,
 }
 
-func NewAnalyzer(loggerName string, extractor logcheck.LogVarIdsExtractor) *analysis.Analyzer {
+func NewAnalyzer(loggerName string, extractor logcheck.LogVarIdsExtractor, patterns ...string) *analysis.Analyzer {
+	if len(patterns) == 0 {
+		patterns = defaultSensitivePatterns
+	}
+
+	regexps := make([]*regexp.Regexp, len(patterns))
+	for i, pattern := range patterns {
+		regexps[i] = regexp.MustCompile(pattern)
+	}
+
 	return &analysis.Analyzer{
 		Name: loggerName + "_nosensetivedata",
 		Doc:  "Check that the log message doesn't contains sensitive data",
 		Run: func(pass *analysis.Pass) (any, error) {
-			return run(extractor, pass)
+			return run(extractor, pass, regexps)
 		},
 	}
 }
 
-func run(extractor logcheck.LogVarIdsExtractor, pass *analysis.Pass) (any, error) {
+func run(extractor logcheck.LogVarIdsExtractor, pass *analysis.Pass, patterns []*regexp.Regexp) (any, error) {
 	for _, f := range pass.Files {
 		ast.Inspect(f, func(n ast.Node) bool {
 			call, ok := n.(*ast.CallExpr)
@@ -45,7 +54,7 @@ func run(extractor logcheck.LogVarIdsExtractor, pass *analysis.Pass) (any, error
 			}
 
 			for _, varId := range varIds {
-				for _, pattern := range sensitivePatterns {
+				for _, pattern := range patterns {
 					if pattern.MatchString(varId) {
 						pass.Reportf(n.Pos(), "Message contains sensitive data: %s", varId)
 						break
