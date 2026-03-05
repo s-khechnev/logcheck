@@ -27,3 +27,35 @@ This creates an executable `./custom-gcl` that can be used instead of the standa
 ```bash
 make test
 ```
+
+### Example of usage
+
+1. Non-English messages
+```go
+slog.Info("Привет мир") // "Message contains non-English letter: Привет мир"
+slog.Info("User created", "роль", "admin") // "Message contains non-English letter: роль"
+```
+
+2. Lowercase messages
+```go
+slog.Info("Привет мир") // "Message starts with capital letter:: Привет мир"
+```
+
+3. No sensitive Data
+```go
+slog.Info("user password: " + password) // "Message contains sensitive data: password"
+slog.Info("user auth", slog.String("password", password)) // "Message contains sensitive data: password"
+```
+
+3. No special chars and emoji
+```go
+slog.Info("Hello 👋") // "Message contains special char or emoji: Hello 👋"
+slog.Info("Temperature: 25°C") // "Message contains special char or emoji: Temperature: 25°C"
+```
+
+Try: 
+```bash
+build/logcheck internal/logcheck/nosensitivedata/testdata/slog/slog.go
+```
+
+And a lot of others in `internal/logcheck/*/testdata/*/*.go`

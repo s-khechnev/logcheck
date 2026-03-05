@@ -54,6 +54,7 @@ func GetConfig() *Config {
 	if len(*loggersStr) > 0 && *loggersStr != "" {
 		loggers = strings.Split(*loggersStr, ",")
 	}
+
 	return &Config{
 		Loggers: loggers,
 	}
