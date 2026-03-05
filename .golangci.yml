@@ -9,3 +9,5 @@ linters:
       logcheck:
         type: "module"
         description: Checks log messages
+        settings:
+          loggers: ["slog", "zap"]
